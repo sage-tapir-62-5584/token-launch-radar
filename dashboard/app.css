@@ -1,0 +1,85 @@
+/* First Light — palette: warm paper, deep ink, teal signal, amber highlight. */
+:root {
+  --paper: #f7f2e7;
+  --card: #fffdf6;
+  --ink: #20242e;
+  --muted: #5f6572;
+  --line: #ddd3bd;
+  --teal: #0f766e;
+  --teal-soft: #e2efec;
+  --amber: #b45309;
+  --amber-soft: #f6e8d2;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+h1, h2 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0 0 8px; }
+h1 { font-size: 44px; letter-spacing: -0.5px; }
+h2 { font-size: 22px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin-top: 0; }
+.masthead { background: var(--ink); color: #f7f2e7; padding: 28px 20px 24px; }
+.masthead-inner { max-width: 1080px; margin: 0 auto; }
+.kicker { color: #9fd8cf; text-transform: uppercase; letter-spacing: 1.5px; font-size: 12px; margin: 0 0 10px; }
+.lede { max-width: 760px; font-size: 17px; margin: 0 0 18px; }
+.stats, .tests { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0; padding: 0; }
+.stats div, .tests div { min-width: 120px; }
+.stats dt, .tests dt { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }
+.stats dt { color: #b9b3a3; }
+.stats dd, .tests dd { margin: 2px 0 0; font-size: 22px; font-weight: 700; font-family: Georgia, serif; }
+main { max-width: 1080px; margin: 0 auto; padding: 20px; }
+section { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 18px; }
+.formula {
+  display: inline-block; background: var(--teal-soft); color: var(--teal);
+  font-family: Georgia, serif; font-size: 18px; font-weight: 700;
+  padding: 8px 14px; border-radius: 6px; margin: 4px 0 12px;
+}
+.note { font-size: 13px; color: var(--muted); }
+.integrity p { margin: 4px 0 0; font-weight: 600; }
+.integrity .ok { color: var(--teal); }
+.integrity .bad { color: #b91c1c; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; margin: 12px 0; }
+.controls label { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.controls label.check { flex-direction: row; align-items: center; gap: 6px; padding-bottom: 6px; color: var(--ink); }
+.controls input, .controls select {
+  font: inherit; color: var(--ink); background: #fff;
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; min-width: 150px;
+}
+.count { margin-left: auto; font-weight: 700; padding-bottom: 6px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr { cursor: pointer; }
+tbody tr:hover, tbody tr.selected { background: var(--amber-soft); }
+td.name b { display: block; }
+td.name span { font-size: 12px; color: var(--muted); }
+td .tag {
+  display: inline-block; font-size: 11px; font-weight: 700; color: var(--amber);
+  background: var(--amber-soft); border-radius: 4px; padding: 1px 5px; margin-left: 6px;
+  vertical-align: 1px;
+}
+td.implied { font-weight: 700; color: var(--teal); }
+.hint { font-size: 13px; color: var(--muted); }
+.detail { border: 2px solid var(--teal); border-radius: var(--radius); padding: 16px 18px; margin-top: 14px; background: #fbfaf5; }
+.detail h3 { margin: 0 0 4px; font-family: Georgia, serif; font-size: 22px; }
+.detail .meta { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.detail h4 { margin: 16px 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--teal); }
+.detail ol { margin: 0; padding-left: 20px; }
+.detail ol li { margin-bottom: 8px; }
+.detail .recompute { background: var(--teal-soft); border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+.detail .recompute code { font-size: 13px; }
+.detail .close { float: right; }
+button {
+  font: inherit; cursor: pointer; border: 1px solid var(--line);
+  background: #fff; border-radius: 6px; padding: 4px 10px;
+}
+footer { font-size: 13px; color: var(--muted); padding: 4px 2px 20px; }
+@media (max-width: 640px) {
+  h1 { font-size: 32px; }
+  .count { margin-left: 0; }
+}

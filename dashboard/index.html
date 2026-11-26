@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Light — the pre-token launch radar</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">make.fun · token-radar-01 · snapshot <span data-bind="as_of"></span></p>
+    <h1>First Light</h1>
+    <p class="lede">A radar for tokens that do not exist yet. <span data-bind="board_size"></span> pre-token protocols ranked by implied value — fitted from the market caps of the tokens that already trade, never from a list of names. Every figure below is recomputed in your browser by the code on this page.</p>
+    <dl class="stats">
+      <div><dt>Protocols in snapshot</dt><dd data-bind="protocols"></dd></div>
+      <div><dt>Watchlist (≥ $50M TVL, no token recorded)</dt><dd data-bind="watchlist_size"></dd></div>
+      <div><dt>Board rows</dt><dd data-bind="board_size2"></dd></div>
+      <div><dt>Early finds below the floor</dt><dd data-bind="early_size"></dd></div>
+      <div><dt>Already trading, set aside</dt><dd data-bind="live_size"></dd></div>
+    </dl>
+  </div>
+</header>
+<main>
+  <section class="method" aria-label="How the value is fitted">
+    <h2>How the value is fitted</h2>
+    <p class="formula">implied value = exp(fitted log market cap) × launch odds</p>
+    <p>Fitted log market cap is a ridge regression (λ = 5) of log market cap on log TVL, log age in days, 7-day TVL growth (clamped to −30…+60%) and log chain count, plus one effect per category, trained at run time on the <span data-bind="training_n"></span> protocols whose token already trades. Launch odds are the smoothed share of comparable protocols that already record a token — the protocol's age bucket blended with its category, each shrunk toward the global share. The board ranks pre-token protocols only; the ones whose token already trades are listed separately, at the market's own value.</p>
+    <dl class="tests">
+      <div><dt>In-sample R²</dt><dd data-bind="r2"></dd></div>
+      <div><dt>Leave-one-out RMSE</dt><dd data-bind="loo_rmse"></dd></div>
+      <div><dt>Leave-one-out within 2×</dt><dd data-bind="loo_2x"></dd></div>
+      <div><dt>Walk-forward RMSE (listed after <span data-bind="wf_cut"></span>)</dt><dd data-bind="wf_rmse"></dd></div>
+      <div><dt>Walk-forward within 2×</dt><dd data-bind="wf_2x"></dd></div>
+      <div><dt>Global token share</dt><dd data-bind="global_share"></dd></div>
+    </dl>
+    <p class="note">The fit is noisy — market caps vary widely around TVL — so treat every implied value as an order of magnitude, not a price target. “Records no token” means the snapshot's DefiLlama record carries no token for the protocol; it is not proof that none exists. This board does not predict whether or when a token is issued.</p>
+  </section>
+
+  <section class="integrity" aria-label="Integrity strip">
+    <h2>Integrity strip — recomputed live on this page</h2>
+    <p data-bind="integrity">Checking…</p>
+  </section>
+
+  <section class="board" aria-label="The board">
+    <h2>The board</h2>
+    <div class="controls">
+      <label>Search <input id="q" type="search" placeholder="name or slug" autocomplete="off"></label>
+      <label>Category <select id="cat"><option value="">All categories</option></select></label>
+      <label>Chain <select id="chain"><option value="">All chains</option></select></label>
+      <label>Sort <select id="sort">
+        <option value="rank">Implied value (rank)</option>
+        <option value="tvl">TVL</option>
+        <option value="growth">7-day growth</option>
+        <option value="age">Age</option>
+        <option value="odds">Launch odds</option>
+      </select></label>
+      <label class="check"><input id="watch" type="checkbox"> Watchlist only</label>
+      <span class="count" data-bind="shown"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="board-table">
+        <thead><tr>
+          <th>Rank</th><th>Protocol</th><th>Category</th><th>Chains</th>
+          <th class="num">TVL</th><th class="num">7-day</th><th class="num">Age</th>
+          <th class="num">Odds</th><th class="num">Fitted</th><th class="num">Implied</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="hint">Click a row for its detail view: the full farm plan and the step-by-step recomputation of its implied value.</p>
+    <article id="detail" class="detail" hidden></article>
+  </section>
+
+  <section class="live" aria-label="Already trading">
+    <h2>Already trading — set aside, at the market's own value</h2>
+    <p>These protocols already record a token, so they are never ranked on this board. They are shown at their recorded market cap, as the training set the model was fitted on. The top <span data-bind="live_size2"></span> by market cap:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">Mcap / TVL</th></tr></thead>
+        <tbody id="live-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Source: <span data-bind="source"></span>. Snapshot date <span data-bind="as_of2"></span>. Model <span data-bind="model_version"></span>. Built by an AI agent for make.fun's “Build the best token launch radar” bounty. Nothing here is investment advice; farming costs gas and can lose money.</p>
+  </footer>
+</main>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
